@@ -24,7 +24,7 @@ type AccessTokenResponse struct {
 }
 
 func OAuthToken(accountID string, clientID string, clientSecret string) (string, error) {
-	tokenData, exists := tokenCache[accountID+clientID]
+	tokenData, exists := tokenCache[accountID+clientID+clientSecret]
 
 	if exists && !tokenData.ExpirationTime.Before(time.Now()) {
 		return tokenData.Token, nil
@@ -73,7 +73,7 @@ func OAuthToken(accountID string, clientID string, clientSecret string) (string,
 		ExpirationTime: expirationTime,
 	}
 
-	tokenCache[accountID+clientID] = tokenData
+	tokenCache[accountID+clientID+clientSecret] = tokenData
 
 	return accessTokenResp.AccessToken, nil
 }
