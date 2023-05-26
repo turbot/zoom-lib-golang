@@ -2,6 +2,7 @@ package zoom
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
@@ -10,6 +11,7 @@ import (
 	"net/url"
 	"time"
 
+	cache "github.com/Code-Hex/go-generics-cache"
 	"github.com/google/go-querystring/query"
 )
 
@@ -38,6 +40,8 @@ var (
 	// ClientSecret is a package-wide Client Secret, used when no client is instantiated
 	ClientSecret string
 
+	oauthCache *cache.Cache[string, string]
+
 	defaultClient *Client
 )
 
@@ -60,6 +64,8 @@ func NewClient(apiKey string, apiSecret string, accountID string, clientID strin
 		Host:   apiURI,
 		Path:   apiVersion,
 	}
+
+  oauthCache = cache.NewContext[string, string](context.Background())
 
 	return &Client{
 		AccountID:    accountID,

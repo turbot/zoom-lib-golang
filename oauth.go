@@ -1,7 +1,6 @@
 package zoom
 
 import (
-	"context"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -20,14 +19,10 @@ type AccessTokenResponse struct {
 }
 
 func OAuthToken(accountID string, clientID string, clientSecret string) (string, error) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-  c := cache.NewContext[string, string](ctx)
-
-	if token, ok := c.Get("accountID+clientID+clientSecret"); ok {
+	if token, ok := oauthCache.Get(accountID + clientID + clientSecret); ok {
 		return token, nil
 	}
-  fmt.Println("test cache")
+	fmt.Println("test cache")
 	data := url.Values{}
 	data.Set("grant_type", "account_credentials")
 	data.Set("account_id", accountID)
@@ -65,9 +60,9 @@ func OAuthToken(accountID string, clientID string, clientSecret string) (string,
 	}
 
 	// set the expiration time for the token to be 5 minutes less than the actual expiry time
-	expirationTime := time.Duration(accessTokenResp.ExpiresIn-300)
+	expirationTime := time.Duration(accessTokenResp.ExpiresIn - 300)
 
-	c.Set("accountID+clientID+clientSecret", accessTokenResp.AccessToken, cache.WithExpiration(expirationTime))
+	oauthCache.Set(accountID+clientID+clientSecret, accessTokenResp.AccessToken, cache.WithExpiration(expirationTime))
 
 	return accessTokenResp.AccessToken, nil
 }
