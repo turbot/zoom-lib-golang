@@ -1,4 +1,21 @@
+# github.com/Code-Hex/go-generics-cache v1.3.1
+## explicit; go 1.18
+github.com/Code-Hex/go-generics-cache
+github.com/Code-Hex/go-generics-cache/policy/clock
+github.com/Code-Hex/go-generics-cache/policy/fifo
+github.com/Code-Hex/go-generics-cache/policy/internal/policyutil
+github.com/Code-Hex/go-generics-cache/policy/lfu
+github.com/Code-Hex/go-generics-cache/policy/lru
+github.com/Code-Hex/go-generics-cache/policy/mru
+github.com/Code-Hex/go-generics-cache/policy/simple
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+## explicit
 # github.com/google/go-querystring v1.0.0
+## explicit
 github.com/google/go-querystring/query
+# golang.org/x/exp v0.0.0-20220328175248-053ad81199eb
+## explicit; go 1.18
+golang.org/x/exp/constraints
 # gopkg.in/dgrijalva/jwt-go.v3 v3.2.0
+## explicit
 gopkg.in/dgrijalva/jwt-go.v3
