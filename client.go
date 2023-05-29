@@ -65,6 +65,7 @@ func NewClient(apiKey string, apiSecret string, accountID string, clientID strin
 		Path:   apiVersion,
 	}
 
+  // initialize the oauthCache
   oauthCache = cache.NewContext[string, string](context.Background())
 
 	return &Client{
