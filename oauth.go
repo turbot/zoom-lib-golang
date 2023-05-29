@@ -19,10 +19,13 @@ type AccessTokenResponse struct {
 }
 
 func OAuthToken(accountID string, clientID string, clientSecret string) (string, error) {
-	if token, ok := oauthCache.Get(accountID + clientID + clientSecret); ok {
+	// set the cache key
+	cacheKey := accountID + clientID + clientSecret
+
+	if token, ok := oauthCache.Get(cacheKey); ok {
 		return token, nil
 	}
-	fmt.Println("test cache")
+
 	data := url.Values{}
 	data.Set("grant_type", "account_credentials")
 	data.Set("account_id", accountID)
@@ -62,7 +65,7 @@ func OAuthToken(accountID string, clientID string, clientSecret string) (string,
 	// set the expiration time for the token to be 5 minutes less than the actual expiry time
 	expirationTime := time.Duration(accessTokenResp.ExpiresIn-300) * time.Second
 
-	oauthCache.Set(accountID+clientID+clientSecret, accessTokenResp.AccessToken, cache.WithExpiration(expirationTime))
+	oauthCache.Set(cacheKey, accessTokenResp.AccessToken, cache.WithExpiration(expirationTime))
 
 	return accessTokenResp.AccessToken, nil
 }
