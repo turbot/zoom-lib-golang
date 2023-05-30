@@ -55,6 +55,7 @@ type Client struct {
 	Transport    http.RoundTripper
 	Timeout      time.Duration // set to value > 0 to enable a request timeout
 	endpoint     string
+	CacheHit     string
 }
 
 // NewClient returns a new API client

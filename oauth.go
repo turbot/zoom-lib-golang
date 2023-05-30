@@ -23,6 +23,7 @@ func OAuthToken(accountID string, clientID string, clientSecret string) (string,
 	cacheKey := accountID + clientID + clientSecret
 
 	if token, ok := oauthCache.Get(cacheKey); ok {
+		fmt.Println("cache hit")
 		return token, nil
 	}
 
@@ -61,9 +62,9 @@ func OAuthToken(accountID string, clientID string, clientSecret string) (string,
 	if err != nil {
 		return "", err
 	}
-
+	fmt.Println("First time/Expired token")
 	// set the expiration time for the token to be 5 minutes less than the actual expiry time
-	expirationTime := time.Duration(accessTokenResp.ExpiresIn-300) * time.Second
+	expirationTime := time.Duration(accessTokenResp.ExpiresIn-3553) * time.Second
 
 	oauthCache.Set(cacheKey, accessTokenResp.AccessToken, cache.WithExpiration(expirationTime))
 
