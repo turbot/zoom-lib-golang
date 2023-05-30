@@ -62,7 +62,7 @@ func OAuthToken(accountID string, clientID string, clientSecret string) (string,
 	if err != nil {
 		return "", err
 	}
-	fmt.Println("First time/Expired token")
+	fmt.Println("First time/Expired token - New token generated")
 	// set the expiration time for the token to be 5 minutes less than the actual expiry time
 	expirationTime := time.Duration(accessTokenResp.ExpiresIn-3595) * time.Second
 	fmt.Println("expirationTime", expirationTime)
